@@ -11,6 +11,12 @@
       "moby": false
     }
   },
+  "containerEnv": {
+    "AWS_ENDPOINT_URL": "http://localhost.floci.io:4566",
+    "AWS_DEFAULT_REGION": "us-east-1",
+    "AWS_ACCESS_KEY_ID": "test",
+    "AWS_SECRET_ACCESS_KEY": "test"
+  },
 
   // Features to add to the dev container. More info: https://containers.dev/features.
   // "features": {},
@@ -20,7 +26,7 @@
 
   // Use 'postCreateCommand' to run commands after the container is created.
   "postCreateCommand": "curl -fsSL https://floci.io/install.sh | sh",
-  "postStartCommand": "floci start"
+  "postStartCommand": "npm run cdk:prepare"
 
   // Configure tool-specific properties.
   // "customizations": {},
