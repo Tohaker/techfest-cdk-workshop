@@ -1,5 +1,7 @@
 #!/usr/bin/env node
-import { App, type Environment } from "aws-cdk-lib/core";
+import { App, Aspects, type Environment } from "aws-cdk-lib/core";
+import { BucketNameValidator } from "../lib/aspects/BucketNameValidator";
+import { BucketSecurityEnforcer } from "../lib/aspects/BucketSecurityEnforcer";
 import { PipelineStack } from "../lib/PipelineStack";
 
 const env: Environment = {
@@ -9,6 +11,9 @@ const env: Environment = {
 
 const app = new App();
 
-new PipelineStack(app, "TechfestCdkWorkshopStack", {
+const stack = new PipelineStack(app, "TechfestCdkWorkshopStack", {
 	env,
 });
+
+Aspects.of(stack).add(new BucketNameValidator());
+Aspects.of(stack).add(new BucketSecurityEnforcer());
