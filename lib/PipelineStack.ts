@@ -6,10 +6,12 @@ import {
 	S3EventSourceV2,
 } from "aws-cdk-lib/aws-lambda-event-sources";
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
-import { BlockPublicAccess, Bucket, EventType } from "aws-cdk-lib/aws-s3";
+import { Bucket, EventType } from "aws-cdk-lib/aws-s3";
+import { BucketBlockPublicAccess } from "aws-cdk-lib/aws-s3/mixins";
 import { Stack, type StackProps } from "aws-cdk-lib/core";
 import type { Construct } from "constructs";
 import { EnterpriseTable } from "./constructs/EnterpriseTable";
+import { TableReplication } from "./mixins/TableReplication";
 
 export class PipelineStack extends Stack {
 	constructor(scope: Construct, id: string, props?: StackProps) {
@@ -19,9 +21,9 @@ export class PipelineStack extends Stack {
 
 		const bucket = new Bucket(this, "StagingBucket", {
 			bucketName: "acme-company-pipeline-bucket",
-			publicReadAccess: false,
-			blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
 		});
+
+		bucket.with(new BucketBlockPublicAccess());
 
 		// ---------------------- DynamoDB ------------------------
 
@@ -29,6 +31,8 @@ export class PipelineStack extends Stack {
 			tableName: "pipeline-table",
 			dynamoStream: StreamViewType.NEW_AND_OLD_IMAGES,
 		});
+
+		table.with(new TableReplication());
 
 		// --------------------- Functions ------------------------
 
