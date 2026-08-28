@@ -1,10 +1,6 @@
 import path from "node:path";
-import {
-	AttributeType,
-	StreamViewType,
-	TableV2,
-} from "aws-cdk-lib/aws-dynamodb";
-import { StartingPosition } from "aws-cdk-lib/aws-lambda";
+import { StreamViewType } from "aws-cdk-lib/aws-dynamodb";
+import { Code, LayerVersion, StartingPosition } from "aws-cdk-lib/aws-lambda";
 import {
 	DynamoEventSource,
 	S3EventSourceV2,
@@ -53,6 +49,12 @@ export class PipelineStack extends Stack {
 
 		// --------------------- Functions ------------------------
 
+		const powertoolsLayer = new LayerVersion(this, "PowertoolsLayer", {
+			code: Code.fromAsset(
+				path.resolve(import.meta.dirname, "./layers/powertools.zip"),
+			),
+		});
+
 		const persistObjectsFunction = new NodejsFunction(this, "PersistObjects", {
 			functionName: "persist-objects",
 			entry: path.resolve(
@@ -61,12 +63,17 @@ export class PipelineStack extends Stack {
 			),
 			environment: {
 				DYNAMODB_TABLE_NAME: table.tableName,
+				POWERTOOLS_SERVICE_NAME: "persist-objects",
 			},
 			events: [
 				new S3EventSourceV2(bucket, {
 					events: [EventType.OBJECT_CREATED, EventType.OBJECT_REMOVED],
 				}),
 			],
+			layers: [powertoolsLayer],
+			bundling: {
+				externalModules: ["@aws-sdk/*", "@aws-lambda-powertools/*"],
+			},
 		});
 
 		bucket.grantRead(persistObjectsFunction);
@@ -78,12 +85,19 @@ export class PipelineStack extends Stack {
 				import.meta.dirname,
 				"../src/stream-records/handler.ts",
 			),
+			environment: {
+				POWERTOOLS_SERVICE_NAME: "stream-records",
+			},
 			events: [
 				new DynamoEventSource(table, {
 					startingPosition: StartingPosition.LATEST,
 					reportBatchItemFailures: true,
 				}),
 			],
+			layers: [powertoolsLayer],
+			bundling: {
+				externalModules: ["@aws-sdk/*", "@aws-lambda-powertools/*"],
+			},
 		});
 	}
 }
