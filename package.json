@@ -1,6 +1,7 @@
 {
 	"name": "techfest-cdk-workshop",
 	"version": "0.1.0",
+	"type": "module",
 	"scripts": {
 		"build": "tsc",
 		"watch": "tsc -w",
@@ -11,10 +12,14 @@
 		"cdk:prepare": "floci start --detach && cdk bootstrap",
 		"cdk:deploy": "cdk deploy --all --require-approval never",
 		"cdk:destroy": "cdk destroy --all --force",
-		"cdk:diff": "cdk diff"
+		"cdk:diff": "cdk diff",
+		"task:logs": "tsx scripts/printLogs.ts",
+		"task:upload": "tsx scripts/uploadFile.ts"
 	},
 	"devDependencies": {
+		"@aws-sdk/client-cloudwatch-logs": "3.1120.0",
 		"@biomejs/biome": "2.5.11",
+		"@types/aws-lambda": "8.10.162",
 		"@types/node": "24.13.3",
 		"aws-cdk": "2.1137.0",
 		"tsx": "4.23.12",
@@ -22,6 +27,11 @@
 		"vitest": "4.1.11"
 	},
 	"dependencies": {
+		"@aws-lambda-powertools/batch": "2.35.0",
+		"@aws-lambda-powertools/logger": "2.35.0",
+		"@aws-sdk/client-dynamodb": "3.1120.0",
+		"@aws-sdk/client-s3": "3.1120.0",
+		"@aws-sdk/util-dynamodb": "3.996.9",
 		"aws-cdk-lib": "2.265.0",
 		"constructs": "10.8.1"
 	}
