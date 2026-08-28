@@ -6,7 +6,7 @@ import {
 	S3EventSourceV2,
 } from "aws-cdk-lib/aws-lambda-event-sources";
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
-import { Bucket, EventType, HttpMethods } from "aws-cdk-lib/aws-s3";
+import { Bucket, EventType } from "aws-cdk-lib/aws-s3";
 import { Stack, type StackProps } from "aws-cdk-lib/core";
 import type { Construct } from "constructs";
 import { EnterpriseTable } from "./constructs/EnterpriseTable";
@@ -18,18 +18,7 @@ export class PipelineStack extends Stack {
 		// --------------------- S3 Bucket ------------------------
 
 		const bucket = new Bucket(this, "StagingBucket", {
-			bucketName: "pipeline-bucket",
-			cors: [
-				{
-					allowedMethods: [
-						HttpMethods.POST,
-						HttpMethods.PUT,
-						HttpMethods.DELETE,
-					],
-					allowedOrigins: ["*"],
-				},
-			],
-			publicReadAccess: false,
+			bucketName: "acme-company-pipeline-bucket",
 		});
 
 		// ---------------------- DynamoDB ------------------------
