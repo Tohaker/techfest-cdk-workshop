@@ -1,36 +1,40 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/typescript-node
 {
-  "name": "Node.js & TypeScript",
-  // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-  "image": "mcr.microsoft.com/devcontainers/typescript-node:5-24-trixie",
-  "features": {
-    "ghcr.io/devcontainers/features/aws-cli:1": {},
-    // Debian trixie has no moby-* packages, so use Docker CE instead.
-    "ghcr.io/devcontainers/features/docker-in-docker:4": {
-      "moby": false
-    }
-  },
-  "containerEnv": {
-    "AWS_ENDPOINT_URL": "http://localhost.floci.io:4566",
-    "AWS_DEFAULT_REGION": "us-east-1",
-    "AWS_ACCESS_KEY_ID": "test",
-    "AWS_SECRET_ACCESS_KEY": "test"
-  },
+	"name": "Node.js & TypeScript",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"image": "mcr.microsoft.com/devcontainers/typescript-node:5-24-trixie",
+	"features": {
+		"ghcr.io/devcontainers/features/aws-cli:1": {},
+		// Debian trixie has no moby-* packages, so use Docker CE instead.
+		"ghcr.io/devcontainers/features/docker-in-docker:4": {
+			"moby": false
+		}
+	},
+	"containerEnv": {
+		"AWS_ENDPOINT_URL": "http://localhost.floci.io:4566",
+		"AWS_DEFAULT_REGION": "us-east-1",
+		"AWS_ACCESS_KEY_ID": "test",
+		"AWS_SECRET_ACCESS_KEY": "test"
+	},
 
-  // Features to add to the dev container. More info: https://containers.dev/features.
-  // "features": {},
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
 
-  // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [4566],
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	"forwardPorts": [4566],
 
-  // Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": "curl -fsSL https://floci.io/install.sh | sh",
-  "postStartCommand": "npm run cdk:prepare"
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "curl -fsSL https://floci.io/install.sh | sh",
+	"postStartCommand": "npm run cdk:prepare",
 
-  // Configure tool-specific properties.
-  // "customizations": {},
+	// Configure tool-specific properties.
+	"customizations": {
+		"vscode": {
+			"extensions": ["biomejs.biome"]
+		}
+	}
 
-  // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-  // "remoteUser": "root"
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "root"
 }
