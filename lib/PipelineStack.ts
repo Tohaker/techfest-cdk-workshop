@@ -6,8 +6,7 @@ import {
 	S3EventSourceV2,
 } from "aws-cdk-lib/aws-lambda-event-sources";
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
-import { Bucket, EventType } from "aws-cdk-lib/aws-s3";
-import { BucketBlockPublicAccess } from "aws-cdk-lib/aws-s3/mixins";
+import { BlockPublicAccess, Bucket, EventType } from "aws-cdk-lib/aws-s3";
 import { Stack, type StackProps } from "aws-cdk-lib/core";
 import type { Construct } from "constructs";
 import { EnterpriseTable } from "./constructs/EnterpriseTable";
@@ -21,6 +20,8 @@ export class PipelineStack extends Stack {
 
 		const bucket = new Bucket(this, "StagingBucket", {
 			bucketName: "acme-company-pipeline-bucket",
+			publicReadAccess: false,
+			blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
 		});
 
 		bucket.with(new BucketBlockPublicAccess());
