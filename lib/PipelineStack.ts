@@ -6,12 +6,7 @@ import {
 	S3EventSourceV2,
 } from "aws-cdk-lib/aws-lambda-event-sources";
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
-import {
-	Bucket,
-	BucketEncryption,
-	EventType,
-	HttpMethods,
-} from "aws-cdk-lib/aws-s3";
+import { Bucket, EventType, HttpMethods } from "aws-cdk-lib/aws-s3";
 import { Stack, type StackProps } from "aws-cdk-lib/core";
 import type { Construct } from "constructs";
 import { EnterpriseTable } from "./constructs/EnterpriseTable";
@@ -24,7 +19,6 @@ export class PipelineStack extends Stack {
 
 		const bucket = new Bucket(this, "StagingBucket", {
 			bucketName: "pipeline-bucket",
-			autoDeleteObjects: false,
 			cors: [
 				{
 					allowedMethods: [
@@ -35,8 +29,6 @@ export class PipelineStack extends Stack {
 					allowedOrigins: ["*"],
 				},
 			],
-			encryption: BucketEncryption.KMS,
-			enforceSSL: true,
 			publicReadAccess: false,
 		});
 
