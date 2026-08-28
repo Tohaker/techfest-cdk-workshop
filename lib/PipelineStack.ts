@@ -10,6 +10,7 @@ import { Bucket, EventType } from "aws-cdk-lib/aws-s3";
 import { Stack, type StackProps } from "aws-cdk-lib/core";
 import type { Construct } from "constructs";
 import { EnterpriseTable } from "./constructs/EnterpriseTable";
+import { TableReplication } from "./mixins/TableReplication";
 
 export class PipelineStack extends Stack {
 	constructor(scope: Construct, id: string, props?: StackProps) {
@@ -27,6 +28,8 @@ export class PipelineStack extends Stack {
 			tableName: "pipeline-table",
 			dynamoStream: StreamViewType.NEW_AND_OLD_IMAGES,
 		});
+
+		table.with(new TableReplication());
 
 		// --------------------- Functions ------------------------
 
