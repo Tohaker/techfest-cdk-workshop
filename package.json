@@ -9,7 +9,7 @@
 		"lint": "biome check .",
 		"lint:fix": "biome check --write .",
 		"cdk": "cdk",
-		"cdk:prepare": "floci start --detach && cdk bootstrap",
+		"cdk:prepare": "floci start --detach --pull=latest && cdk bootstrap",
 		"cdk:deploy": "cdk deploy --all --require-approval never",
 		"cdk:destroy": "cdk destroy --all --force",
 		"cdk:diff": "cdk diff",
