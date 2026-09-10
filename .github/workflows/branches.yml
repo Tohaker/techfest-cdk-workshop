@@ -1,0 +1,39 @@
+name: branches
+
+on:
+    push:
+        branches:
+            - main
+
+permissions:
+    contents: write
+
+jobs:
+    rebase:
+        runs-on: ubuntu-slim
+        strategy:
+            fail-fast: true
+            max-parallel: 1
+            matrix:
+                branch:
+                    - 1-create-aspect
+                    - 2-create-mixin
+                    - 3-create-blueprint
+                include:
+                    - branch: 1-create-aspect
+                      base: main
+                    - branch: 2-create-mixin
+                      base: 1-create-aspect
+                    - branch: 3-create-blueprint
+                      base: 2-create-mixin
+        steps:
+            - uses: actions/checkout@v7
+              with:
+                ref: ${{ matrix.branch }}
+
+            - name: Rebase ${{ matrix.branch }} onto ${{ matrix.base }}
+              run: git rebase ${{ matrix.base }}
+
+            - name: Push ${{ matrix.branch }}
+              run: git push -f
+            
