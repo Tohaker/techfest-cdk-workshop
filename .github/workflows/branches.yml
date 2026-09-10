@@ -42,7 +42,7 @@ jobs:
               run: git checkout ${{ matrix.branch }}
 
             - name: Rebase ${{ matrix.branch }} onto ${{ matrix.base }}
-              run: git rebase ${{ matrix.base }}
+              run: git rebase -X theirs ${{ matrix.base }}
 
             - name: Push ${{ matrix.branch }}
               run: git push -f
