@@ -29,8 +29,11 @@ jobs:
         steps:
             - uses: actions/checkout@v7
               with:
-                ref: ${{ matrix.branch }}
+                ref: ${{ matrix.base }}
                 fetch-depth: 0
+
+            - name: Checkout ${{ matrix.branch }}
+              run: git checkout ${{ matrix.branch }}
 
             - name: Rebase ${{ matrix.branch }} onto ${{ matrix.base }}
               run: git rebase ${{ matrix.base }}
