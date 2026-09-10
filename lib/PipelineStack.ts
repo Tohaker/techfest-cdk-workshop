@@ -7,6 +7,7 @@ import {
 } from "aws-cdk-lib/aws-lambda-event-sources";
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
 import { BlockPublicAccess, Bucket, EventType } from "aws-cdk-lib/aws-s3";
+import { BucketBlockPublicAccess } from "aws-cdk-lib/aws-s3/mixins";
 import { Stack, type StackProps } from "aws-cdk-lib/core";
 import type { Construct } from "constructs";
 import { EnterpriseTable } from "./constructs/EnterpriseTable";
