@@ -1,0 +1,36 @@
+name: checks
+
+on: 
+    pull_request:
+        branches:
+            - main
+    push:
+        branches:
+            - main
+
+permissions:
+    contents: read
+
+jobs:
+    check:
+        runs-on: ubuntu-slim
+        strategy:
+            fail-fast: false
+            matrix:
+                command:
+                    - lint
+                    - test
+                    - build
+        steps:
+            - uses: actions/checkout@v7
+
+            - uses: actions/setup-node@v7
+              with:
+                node-version-file: .nvmrc
+                check-latest: true
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Run ${{ matrix.command }}
+              run: npm run ${{ matrix.command }}
