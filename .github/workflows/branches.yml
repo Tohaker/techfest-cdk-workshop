@@ -32,6 +32,11 @@ jobs:
                 ref: ${{ matrix.base }}
                 fetch-depth: 0
 
+            - name: Setup Git user
+              run: |
+                git config user.name "github-actions[bot]"
+                git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
             - name: Checkout ${{ matrix.branch }}
               run: git checkout ${{ matrix.branch }}
 
