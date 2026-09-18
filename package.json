@@ -20,7 +20,7 @@
 		"@aws-sdk/client-cloudwatch-logs": "3.1132.0",
 		"@biomejs/biome": "2.5.13",
 		"@types/aws-lambda": "8.10.163",
-		"@types/node": "26.5.0",
+		"@types/node": "26.6.0",
 		"aws-cdk": "2.1141.0",
 		"tsx": "4.23.13",
 		"typescript": "7.0.2",
